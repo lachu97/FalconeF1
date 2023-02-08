@@ -2,8 +2,6 @@
 import React, { useEffect } from 'react';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {
-    Button,
-    Pressable,
     SafeAreaView,
     StyleSheet,
     Text,
@@ -13,14 +11,13 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTokenRequest, fetchPlanetsList, fetchVehiclesList } from '../Actions/Actions';
-function Home() {
+function Home(): JSX.Element {
     const isDarkMode = useColorScheme() === 'dark';
     const dispatch = useDispatch();
     const tokenValue = useSelector(state => state.token)
     const planetList = useSelector(state => state.planetsData)
-    const vehicletList = useSelector(state => state.vehicleData)
+    const vehicleList = useSelector(state => state.vehicleData)
     useEffect(() => {
-        console.log('Dispatching Token API')
         dispatch(fetchTokenRequest())
         dispatch(fetchPlanetsList())
         dispatch(fetchVehiclesList())
@@ -34,8 +31,8 @@ function Home() {
             <View style={styles.sectionContainer}>
                 <Text>Hello Finding Falconer Problem</Text>
                 <Text>Token Values == {tokenValue}</Text>
-                <Text>{planetList.map((data) => data.name)}</Text>
-                <Text>{vehicletList.map((data) => data.name)}</Text>
+                <Text>{planetList.map((data: { name: any; }) => data.name)}</Text>
+                <Text>{vehicleList.map((data: { name: any; }) => data.name)}</Text>
             </View>
         </SafeAreaView>
     );

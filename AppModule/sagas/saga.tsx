@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { call, put, takeLatest, delay, all } from 'redux-saga/effects';
-import axios from 'axios';
-import { TOKEN_API_URL, PLANETS_API_URL, VEHICLE_API_URL } from '../Constants';
 import {
   FETCH_TOKEN_FAILURE,
   FETCH_TOKEN_SUCCESS,
@@ -13,18 +11,8 @@ import {
   FETCH_VEhiCLES_LIST_SUCCESS,
   FETCH_VEhiCLES_LIST
 } from '../Actions/ActionsConstants';
-const headers = {
-  Accept: 'application/json',
-};
-const loadTokenAPI = async () => {
-  return await axios.post(TOKEN_API_URL, [], { headers: headers });
-};
-const loadPlanetList = async () => {
-  return await axios.get(PLANETS_API_URL);
-};
-const loadVehicleList = async () => {
-  return await axios.get(VEHICLE_API_URL);
-};
+import {loadTokenAPI,loadPlanetList,loadVehicleList} from '../Network/networks'
+
 const success = (response: { data: any; }, value: string) => {
   return {
     type: value,

@@ -9,19 +9,23 @@ import {
     View,
 
 } from 'react-native';
+import FindFalcone from './FinalView'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTokenRequest, fetchPlanetsList, fetchVehiclesList } from '../Actions/Actions';
+import { fetchTokenRequest, fetchPlanetsList, fetchVehiclesList, addTokentoData } from '../Actions/Actions';
 function Home(): JSX.Element {
     const isDarkMode = useColorScheme() === 'dark';
     const dispatch = useDispatch();
     const tokenValue = useSelector(state => state.token)
-    const planetList = useSelector(state => state.planetsData)
-    const vehicleList = useSelector(state => state.vehicleData)
     useEffect(() => {
         dispatch(fetchTokenRequest())
         dispatch(fetchPlanetsList())
         dispatch(fetchVehiclesList())
     }, [dispatch])
+    useEffect(() => {
+        if (tokenValue !== '') {
+            dispatch(addTokentoData(tokenValue))
+        }
+    }, [tokenValue])
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
         flex: 1,
@@ -29,20 +33,23 @@ function Home(): JSX.Element {
     return (
         <SafeAreaView style={backgroundStyle}>
             <View style={styles.sectionContainer}>
-                <Text>Hello Finding Falconer Problem</Text>
-                <Text>Token Values == {tokenValue}</Text>
-                <Text>{planetList.map((data: { name: any; }) => data.name)}</Text>
-                <Text>{vehicleList.map((data: { name: any; }) => data.name)}</Text>
+                <Text style={styles.textStyle}>Finding Falcon Game</Text>
+                <FindFalcone />
             </View>
         </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
+
     sectionContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 40
+        paddingVertical: 20
     },
+    textStyle :{
+        fontWeight: 'bold',
+        fontSize: 22,
+    }
 });
-export default Home;
+export default React.memo(Home);
